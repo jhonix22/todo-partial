@@ -1,10 +1,10 @@
 
-TODO CRUD Application (Partial)
+TODO CRUD Application (partial)
 ===
 
-This repo houses the beginning of a simple CRUD application using `composer`, `phpunit`, and two interfaces `InterfaceTodo`/`InterfaceTodoList`.
+This repo houses the beginning of a simple CRUD application, using tools like `composer` and `phpunit` + two interfaces `InterfaceTodo` and `InterfaceTodoList`.
 
-The goal is to create a simple TODO CRUD application by extending the current codebase by making use of any (and all) modern development practices. 
+The goal is to create a simple TODO CRUD application and extend the current codebase. You should make use of any (and all) modern development practices. 
 
 ## Getting started
 
