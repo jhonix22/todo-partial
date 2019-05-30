@@ -1,0 +1,12 @@
+{
+    "name": "jake/todo-partial",
+    "description": "A partially-completed TODO CRUD application",
+    "type": "project",
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^8.1"
+    },
+    "autoload": {
+        "psr-4": {"Todo\\Partial\\": "src/"}
+    }
+}
