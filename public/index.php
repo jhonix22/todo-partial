@@ -115,48 +115,45 @@ if (!empty($_POST['order'])) {
   </header>
 
   <div class="container bg-secondary pl-5">
-
     <form id="add-list" method="POST" action="">
-      <input class="rounded bg-light col-8 my-4 p-2" name="description" id="new-item" autocomplete="off" placeholder="Enter list...">
-      <input type="submit" class="btn btn-dark ml-4" name="add" value="Add">
-    <div>
-        <div class="form-group">
-            <label for="filterby" class="label label-default">Search By</label>
-            <input type="text" placeholder="Search" name="filter_value" value="<?php echo $filter_value ;?>" class="rounded bg-light col-4 my-4 p-2">
-            <input type="submit" value="Filter" name="filter">
-            <input type="button" value="Reset" name="Reset" onclick="window.location.href=''">
-        </div>
-        <div class="form-group">
-            <label for="sort_id" class="label label-default">Order By</label>
-                <select name="sort_id" id="sort_id" class="form-control col-md-4">
-                    <option value="id" <?php echo $sort_id == 'id' ? "selected" : "";?>>ID</option>
-                    <option value="TodoDescription" <?php echo $sort_id == 'TodoDescription' ? "selected" : "";?>>Description</option>
-                </select>
-            <div class="form-group">
-                <input type="radio" class="checkbox" value="asc" <?php echo $sort_by == "asc" ? "checked" : "";?> name="sort_by"> ASC
-                <input type="radio" class="checkbox" value="desc" <?php echo $sort_by == "desc" ? "checked" : "";?> name="sort_by"> DESC
+      <div class="form-group">
+        <input class="rounded bg-light col-8 my-4 p-2" name="description" id="new-item" autocomplete="off" placeholder="Enter list...">
+        <input type="submit" class="btn btn-dark ml-4" name="add" value="Add">
+      </div>
+        <div style="display:flex;">
+            <div class="form-group col-md-4" style="padding-left:0px;">
+                <input type="text" placeholder="Search" name="filter_value" value="<?php echo $filter_value ;?>" class="rounded bg-light col-8 my-4 p-2"><br/>
+                <input type="submit" class="btn btn-primary" value="Filter" name="filter">
+                <input type="button" class="btn btn-default" value="Reset" name="Reset" onclick="window.location.href=''">
             </div>
-            <input type="submit" value="Order" name="order">
+            <div class="form-group col-md-6">
+                <div class="form-group">
+                    <label for="sort_id" class="label label-default"><b>Order By</b></label>
+                    <select name="sort_id" id="sort_id" class="form-control col-md-4">
+                        <option value="id" <?php echo $sort_id == 'id' ? "selected" : "";?>>ID</option>
+                        <option value="TodoDescription" <?php echo $sort_id == 'TodoDescription' ? "selected" : "";?>>Description</option>
+                    </select>
+                    <input type="radio" class="checkbox" value="asc" <?php echo $sort_by == "asc" ? "checked" : "";?> name="sort_by"> ASC
+                    <input type="radio" class="checkbox" value="desc" <?php echo $sort_by == "desc" ? "checked" : "";?> name="sort_by"> DESC
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Order" name="order" class="btn btn-primary">
+                </div>
+            </div>
         </div>
       <ol class="list-group" id="items-list">
         <?php
             foreach ($lists as $list) {
                 ?>
                     <li class="list-group-item mb-2 w-75">
-                        <input type="hidden" value="<?php echo $list['todo_id']; ?>" name="todo_<?php echo $list['todo_id']; ?>">
-                        <?php echo strip_tags(htmlentities($list['todo_description'])); ?> (<?php echo $list['completed_status'] ? "<span class='text-success'>Completed</span>": "<span class='text-warning'>Pending</span>" ;?>)
-                        <input type="button" value="Remove" onclick="removeItem(<?php echo $list['todo_id']; ?>)" class="btn btn-sm btn-danger float-right mr-2">
-                       <?php
-                            if (!$list['completed_status']) {
-                                ?>
-                                    <input type="button" value="Complete" onclick="complete(<?php echo $list['todo_id']; ?>)" class="mr-2 img-margin btn btn-sm btn-info float-right">
-                    <?php   } ?>
+                        <input type="hidden" value="<?php echo $list->getTodoId(); ?>" name="todo_<?php echo $list->getTodoId(); ?>">
+                        <?php echo strip_tags(htmlentities($list->getTodoDescription())); ?> 
+                        <input type="button" value="Delete" onclick="removeItem(<?php echo $list->getTodoId(); ?>)" class="btn btn-sm btn-danger float-right mr-2">
                     </li>
                 <?php
             }
         ?>
       </ol>
-    </div>
     </form>
   </div>
   <script>
