@@ -11,6 +11,7 @@ class Todo implements InterfaceTodo
      */
     protected $description;
     protected $status;
+    protected $id;
 
     /**
      * Get the current Todo item description
@@ -47,4 +48,21 @@ class Todo implements InterfaceTodo
     {
         $this->status = 0;
     }
+
+    /**
+     * Set the Todo item id
+     */
+    public function setTodoId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * Get the Todo item id
+     */
+    public function getTodoId()
+    {
+        return $this->id;
+    }
+
 }
