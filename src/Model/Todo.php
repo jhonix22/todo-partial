@@ -2,8 +2,24 @@
 
 namespace Todo\Partial\Model;
 
+use SQLiteConnection;
+
 class Todo implements InterfaceTodo
 {
+    /**
+     * PDO Object
+     * @var \PDO
+     */
+    private $pdo;
+
+    /**
+     * Initialize the object with a specified PDO object
+     * @param \PDO $pdo
+     */
+    public function __construct($pdo) {
+        $this->pdo = $pdo;
+    }
+
     /**
      * Get the current Todo item description
      *

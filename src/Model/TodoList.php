@@ -2,8 +2,24 @@
 
 namespace Todo\Partial\Model;
 
+use SQLiteConnection;
+
 class TodoList implements InterfaceTodoList
 {
+    /**
+     * PDO Object
+     * @var \PDO
+     */
+    private $pdo;
+
+    /**
+     * Initialize the object with a specified PDO object
+     * @param \PDO $pdo
+     */
+    public function __construct($pdo) {
+        $this->pdo = $pdo;
+    }
+
     /**
      * Return the current list of TODO items
      *
@@ -23,7 +39,7 @@ class TodoList implements InterfaceTodoList
      */
     public function add(InterfaceTodo $todo)
     {
-
+        
     }
 
     /**
