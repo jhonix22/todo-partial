@@ -3,6 +3,7 @@
 namespace Todo\Partial\Model;
 
 use SQLiteConnection;
+use Todo\Partial\Model\Todo;
 
 class TodoList implements InterfaceTodoList
 {
@@ -53,6 +54,12 @@ class TodoList implements InterfaceTodoList
         $list = [];
  
         while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+
+            // $todo = new Todo();
+            // $todo->setTodoDescription($row['TodoDescription']);
+            // $todo->setCompletedStatus();
+
+            // $list[] = $todo;
             $list[] = [
                 'todo_id' => $row['id'],
                 'todo_description' => $row['TodoDescription'],

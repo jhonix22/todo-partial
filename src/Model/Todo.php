@@ -2,7 +2,6 @@
 
 namespace Todo\Partial\Model;
 
-use SQLiteConnection;
 
 class Todo implements InterfaceTodo
 {
