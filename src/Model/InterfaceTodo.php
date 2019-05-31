@@ -27,4 +27,14 @@ interface InterfaceTodo
      * Remove the completed status
      */
     public function removeCompletedStatus();
+
+    /**
+     * Set the Todo item id
+     */
+    public function setTodoId($id);
+    
+    /**
+     * Get the current Todo item Id
+     */
+    public function getTodoId();
 }
