@@ -55,17 +55,12 @@ class TodoList implements InterfaceTodoList
  
         while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
 
-            // $todo = new Todo();
-            // $todo->setTodoDescription($row['TodoDescription']);
-            // $todo->setCompletedStatus();
+            $todo = new Todo();
+            $todo->setTodoId($row['id']);
+            $todo->setTodoDescription($row['TodoDescription']);
+            $todo->setCompletedStatus();
 
-            // $list[] = $todo;
-            $list[] = [
-                'todo_id' => $row['id'],
-                'todo_description' => $row['TodoDescription'],
-                'completed_status' => $row['CompletedStatus'],
-                'date_added' => $row['date_added'],
-            ];
+            $list[] = $todo;
         }
  
         return $list;
