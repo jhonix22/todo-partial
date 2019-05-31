@@ -21,7 +21,7 @@ class SQLiteConnection
     {
         if ($this->pdo == null) {
             try {
-                $this->pdo = new \PDO("sqlite:" . Config::PATH_TO_SQLITE_FILE, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+                $this->pdo = new \PDO("sqlite:" . Config::PATH_TO_SQLITE_FILE);
             } catch (\PDOException $e) {
                 // throw exception
                 echo 'Connection failed: ' . $e->getMessage();

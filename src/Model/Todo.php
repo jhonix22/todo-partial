@@ -7,18 +7,11 @@ use SQLiteConnection;
 class Todo implements InterfaceTodo
 {
     /**
-     * PDO Object
-     * @var \PDO
+     * @var description
+     * @var status
      */
-    private $pdo;
-
-    /**
-     * Initialize the object with a specified PDO object
-     * @param \PDO $pdo
-     */
-    public function __construct($pdo) {
-        $this->pdo = $pdo;
-    }
+    protected $description;
+    protected $status;
 
     /**
      * Get the current Todo item description
@@ -27,7 +20,7 @@ class Todo implements InterfaceTodo
      */
     public function getTodoDescription()
     {
-
+        return $this->description;
     }
 
     /**
@@ -37,7 +30,7 @@ class Todo implements InterfaceTodo
      */
     public function setTodoDescription($value)
     {
-
+        $this->description = $value;
     }
 
     /**
@@ -45,7 +38,7 @@ class Todo implements InterfaceTodo
      */
     public function setCompletedStatus()
     {
-
+        $this->status = 1;
     }
 
     /**
@@ -53,6 +46,6 @@ class Todo implements InterfaceTodo
      */
     public function removeCompletedStatus()
     {
-
+        $this->status = 0;
     }
 }

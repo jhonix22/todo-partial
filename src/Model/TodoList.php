@@ -25,11 +25,43 @@ class TodoList implements InterfaceTodoList
      *
      * @param array $config Allow the Todo items to be ordered and filtered
      *
-     * @return array
+     * @return array of todo list
      */
     public function getAll($config = [])
-    {
+    {  
+        //sanitize data
+        $filter_by = strip_tags(htmlentities($config['filter_by']));
+        $filter_value = strip_tags(htmlentities($config['filter_value']));
+        $sort_id = strip_tags(htmlentities($config['sort_id']));
+        $sort_by = strip_tags(htmlentities($config['sort_by']));
 
+
+        // SQL query
+        $sqlQuery ='SELECT * FROM todo_list 
+                    WHERE 
+                        ' .$filter_by. ' like "%' .$filter_value. '"
+                    ORDER BY
+                        ' .$sort_id. ' ' .$sort_by. '
+                    ';
+
+        //  prepare SELECT statement
+        $stmt = $this->pdo->prepare($sqlQuery);
+    
+        $stmt->execute();
+
+        // for storing list
+        $list = [];
+ 
+        while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+            $list[] = [
+                'todo_id' => $row['id'],
+                'todo_description' => $row['TodoDescription'],
+                'completed_status' => $row['CompletedStatus'],
+                'date_added' => $row['date_added'],
+            ];
+        }
+ 
+        return $list;
     }
 
     /**
@@ -39,16 +71,23 @@ class TodoList implements InterfaceTodoList
      */
     public function add(InterfaceTodo $todo)
     {
-        
+        $sql = 'INSERT INTO todo_list(TodoDescription) VALUES(:description)';
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute(['description' => $todo->getTodoDescription()]);
     }
 
     /**
      * Remove a Todo item from the list
      *
      * @param int $id
+     * @return boolean
      */
     public function remove($id)
     {
+        // prepare DELETE statement
+        $stmt = $this->pdo->prepare("DELETE FROM todo_list WHERE id =:id");
+        $stmt->execute(array("id" => $id));
 
+        return $stmt->rowCount() > 0 ? true : false;
     }
 }
