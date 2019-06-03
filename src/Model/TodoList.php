@@ -58,7 +58,6 @@ class TodoList implements InterfaceTodoList
             $todo = new Todo();
             $todo->setTodoId($row['id']);
             $todo->setTodoDescription($row['TodoDescription']);
-            $todo->setCompletedStatus();
 
             $list[] = $todo;
         }
@@ -73,9 +72,9 @@ class TodoList implements InterfaceTodoList
      */
     public function add(InterfaceTodo $todo)
     {
-        $sql = 'INSERT INTO todo_list(TodoDescription) VALUES(:description)';
+        $sql = 'INSERT INTO todo_list(TodoDescription,CompletedStatus) VALUES(:description,:status)';
         $stmt = $this->pdo->prepare($sql);
-        return $stmt->execute(['description' => $todo->getTodoDescription()]);
+        return $stmt->execute(['description' => $todo->getTodoDescription(), 'status' => $todo->getCompletedStatus()]);
     }
 
     /**
