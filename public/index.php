@@ -32,7 +32,7 @@ $lists = $todo->getAll($filters);
 if (!empty($_POST["add"]) && !empty($_POST['description'])) {
 
     /**
-     * Initialize todo class
+     * Initialize todo object
      */
     
     $todoAction = new Todo();
@@ -44,7 +44,6 @@ if (!empty($_POST["add"]) && !empty($_POST['description'])) {
      * SET completed status and description
      */
     $todoAction->setTodoDescription($description);
-    $todoAction->setCompletedStatus();
 
     /** 
      * Add todo item to our list
@@ -63,15 +62,24 @@ if (isset($_POST['action']) && $_POST['action'] == 'remove') {
     }
 }
 
-//set status to complete of item
-if (isset($_POST['action']) && $_POST['action'] == 'complete') {
+//set status of item
+if (isset($_POST['action']) && $_POST['action'] == 'set_status') {
     
     //sanitize
     $id = strip_tags(htmlentities($_POST['id']));
-    if ($todo->setCompletedStatus($id)) {
-        echo json_encode(array("success" => 1));
-        return;
+    $status = strip_tags(htmlentities($_POST['status']));
+
+    $todo = new Todo($pdo);
+    $todo->setTodoId($id);
+
+    if ($status == 'complete') {
+        $todo->setCompletedStatus();
+    }else{
+        $todo->removeCompletedStatus();
     }
+
+    echo json_encode(array("success" => 1));
+    return;
 }
 
 //search by
@@ -94,7 +102,7 @@ if (!empty($_POST['order'])) {
 }
 
 /**
- * END OF PPOST PROCESSING
+ * END OF POST PROCESSING
  */
 
 ?>
@@ -146,6 +154,7 @@ if (!empty($_POST['order'])) {
             foreach ($lists as $list) {
                 ?>
                     <li class="list-group-item mb-2 w-75">
+                        <input type="checkbox" name="completed" <?php echo $list->getCompletedStatus() ? 'checked' : '';?> value="1" alt="Toggle to set status" onchange="toggleStatus(this,<?php echo $list->getTodoId(); ?>)">
                         <input type="hidden" value="<?php echo $list->getTodoId(); ?>" name="todo_<?php echo $list->getTodoId(); ?>">
                         <?php echo strip_tags(htmlentities($list->getTodoDescription())); ?> 
                         <input type="button" value="Delete" onclick="removeItem(<?php echo $list->getTodoId(); ?>)" class="btn btn-sm btn-danger float-right mr-2">
@@ -157,7 +166,27 @@ if (!empty($_POST['order'])) {
     </form>
   </div>
   <script>
-      function removeItem(id){
+    function toggleStatus(e,id){
+       var status = "pending";
+       if (e.checked) {
+           status = "complete";
+       }
+
+
+            $.ajax({
+                type: "POST",
+                url: "/",
+                data: {id: id, action: "set_status", status: status},
+                success: function(data, status) {
+                    data = JSON.parse(data);
+                    if(data.success)
+                        window.location.href = "/";
+                }
+            });
+        
+    }
+
+    function removeItem(id){
         var x = confirm("Are you sure you want to remove this item?");
         
         if(!x) return false;
@@ -173,20 +202,7 @@ if (!empty($_POST['order'])) {
             }
         });
 
-      }
-
-      function complete(id){
-        $.ajax({
-            type: "POST",
-            url: "/",
-            data: {id: id, action: "complete"},
-            success: function(data, status) {
-                data = JSON.parse(data);
-                if(data.success)
-                    window.location.href = "/";
-            }
-        });
-      }
+    }
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
 </body>
