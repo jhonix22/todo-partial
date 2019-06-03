@@ -8,10 +8,19 @@ class Todo implements InterfaceTodo
     /**
      * @var description
      * @var status
+     * @var \PDO
      */
     protected $description;
-    protected $status;
     protected $id;
+    protected $pdo;
+
+    /**
+     * Initialize the object with a specified PDO object
+     * @param \PDO $pdo
+     */
+    public function __construct($pdo = null) {
+        $this->pdo = $pdo;
+    }
 
     /**
      * Get the current Todo item description
@@ -38,7 +47,9 @@ class Todo implements InterfaceTodo
      */
     public function setCompletedStatus()
     {
-        $this->status = 1;
+        $sql = 'UPDATE todo_list SET CompletedStatus=:status WHERE id=:id';
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute(['status' => 1, 'id' => $this->getTodoId()]);
     }
 
     /**
@@ -46,7 +57,9 @@ class Todo implements InterfaceTodo
      */
     public function removeCompletedStatus()
     {
-        $this->status = 0;
+        $sql = 'UPDATE todo_list SET CompletedStatus=:status WHERE id=:id';
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute(['status' => 0, 'id' => $this->getTodoId()]);
     }
 
     /**
@@ -55,7 +68,11 @@ class Todo implements InterfaceTodo
 
     public function getCompletedStatus()
     {
-        return $this->status;
+        $sql = 'SELECT CompletedStatus FROM todo_list WHERE id=:id';
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['id' => $this->getTodoId()]);
+        $row = $stmt->fetch(\PDO::FETCH_ASSOC);
+        return $row['CompletedStatus'];
     }
     /**
      * Set the Todo item id
