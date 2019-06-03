@@ -3,4 +3,4 @@ composer.lock
 
 # exception to the rule
 !db/.gitkeep
-db/database.db
+db/*
