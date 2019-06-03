@@ -50,6 +50,14 @@ class Todo implements InterfaceTodo
     }
 
     /**
+     * Get completed status
+     */
+
+    public function getCompletedStatus()
+    {
+        return $this->status;
+    }
+    /**
      * Set the Todo item id
      */
     public function setTodoId($id)
