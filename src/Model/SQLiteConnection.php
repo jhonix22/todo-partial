@@ -30,4 +30,24 @@ class SQLiteConnection
         }
         return $this->pdo;
     }
+
+    /**
+     * Create todo_list table
+     */
+    
+    public function createTable($pdo)
+    {
+        // check pdo object if not null
+        if ($pdo != null)
+        {
+            $stmt = $pdo->query("CREATE TABLE IF NOT EXISTS todo_list (
+                id              INTEGER       PRIMARY KEY AUTOINCREMENT,
+                TodoDescription VARCHAR (255) NOT NULL,
+                CompletedStatus INTEGER (1)   DEFAULT (0),
+                date_added      DATETIME
+            );
+        ");
+            return $stmt->execute();
+        }
+    }
 }
