@@ -11,7 +11,7 @@ class TodoList implements InterfaceTodoList
      * PDO Object
      * @var \PDO
      */
-    private $pdo;
+    protected $pdo;
 
     /**
      * Initialize the object with a specified PDO object
@@ -55,7 +55,7 @@ class TodoList implements InterfaceTodoList
  
         while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
 
-            $todo = new Todo();
+            $todo = new Todo($this->pdo);
             $todo->setTodoId($row['id']);
             $todo->setTodoDescription($row['TodoDescription']);
 
