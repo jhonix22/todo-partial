@@ -9,6 +9,9 @@ use Todo\Partial\Model\Todo;
 
 //Initialize objects;
 $pdo = (new SQLiteConnection())->connect();
+//create table todo_list
+(new SQLiteConnection())->createTable($pdo);
+
 $todo = new TodoList($pdo);
 
 //set initial filters
